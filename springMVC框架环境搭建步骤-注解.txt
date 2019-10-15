@@ -1,0 +1,100 @@
+1.创建web工程
+
+2.在lib文件夹，导入核心的jar包
+
+	spring-beans.jar
+	spring-context.jar
+	spring-core.jar
+	spring-expression.jar
+	spring-aop.jar
+	【spring-web.jar
+	spring-webmvc.jar】
+	
+	需要导入依赖包：
+	    commons-logging-1.1.3.jar
+	    aopalliance-1.0.jar
+	    aspectjweaver-1.8.0.M1.jar
+
+2.在 web.xml 中配置 DispatcherServlet 
+	  <!-- 1.前端控制器：负责接收请求与响应结果 -->
+	  <servlet>
+	  		<servlet-name>springMVC</servlet-name>
+	  		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	  
+	  		<!-- 配置springMVC的核心配置文件路径spring-mvc.xml -->
+	  		<init-param>
+	  			<param-name>contextConfigLocation</param-name>
+	  			<param-value>classpath:spring-mvc.xml</param-value>
+	  		</init-param>
+	  </servlet>
+	  <servlet-mapping>
+	  		<servlet-name>springMVC</servlet-name>
+	  		<url-pattern>*.action</url-pattern>
+	  </servlet-mapping>
+
+3.在src下新建springMVC核心配置文件spring-mvc.xml
+	<?xml version="1.0" encoding="UTF-8"?>
+	<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	                       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	                       http://www.springframework.org/schema/context
+	                       http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	                       http://www.springframework.org/schema/aop
+	                       http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+	
+
+	
+	</beans>	
+
+4.在spring-mvc.xml中配置处理器映射器 
+	<!-- 2.【注解】处理器映射器:负责根据请求的url查找指定的处理器  -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+
+5.编写处理请求的处理器HelloController.java
+	@Controller
+	public class HelloController{
+	
+		@RequestMapping("/hello.action")//定义访问路径
+		public ModelAndView hello()
+		{
+			ModelAndView mav = new ModelAndView();
+			
+			//1.保存数据,相当于request.setAttribute("message",""恭喜你，成功访问第一个springMVC的环境....."");
+			mav.addObject("message", "恭喜你，成功访问第一个springMVC的环境.....");
+			
+			//2.跳转页面,相当于request.getRequestDispather("/main.jsp").forward(request,response);
+			mav.setViewName("/main.jsp");
+			
+			return mav;
+		}
+	}
+
+6.在spring-mvc.xml中配置处理器
+	<!-- 3.处理器 -->
+	<bean id="helloController" class="com.neuedu.controller.HelloController"></bean>
+
+7.在spring-mvc.xml中配置处理器适配器
+	<!-- 4.【注解】处理器适配器：负责适配执行处理器 -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	
+
+8.编写视图 main.jsp
+	<html>
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<title>Insert title here</title>
+		</head>
+		<body>
+				${message}
+		</body>
+	</html>
+
+9.在spring-mvc.xml中配置视图解析器
+	<!-- 5.视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"></bean>
+
+10.部署调试index.jsp
+	<a href="hello.action">点击链接测试springMVC环境搭建是否成功</a>

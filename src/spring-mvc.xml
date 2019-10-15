@@ -14,7 +14,7 @@
 	                       http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
 
 
-<!--【非注解】start  -->
+<!-- ================================【非注解】      start====================================================== -->       
 		<!-- 
 			2. 【非注解】处理映射器:负责根据请求的url查找指定的处理器
 			-->
@@ -49,8 +49,8 @@
 		
 		<!-- 5. 视图解析器 -->
 	<!-- 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"></bean> -->
-							<!-- 【非注解】end -->
-							<!-- 【注解】start -->
+	<!-- ================================【非注解】      end====================================================== -->                       
+	<!-- ================================【注解】      start====================================================== -->  
 
 
 
@@ -73,8 +73,5 @@
 		
 		<!-- 5. 视图解析器 -->
 		<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"></bean>
-
-
-
 
 </beans>
